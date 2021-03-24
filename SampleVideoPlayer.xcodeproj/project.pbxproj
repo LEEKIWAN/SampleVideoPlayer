@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8309C80226031DA200847DF3 /* AVAsset+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8309C80126031DA200847DF3 /* AVAsset+.swift */; };
+		8309C80B26033E1A00847DF3 /* ThumbnailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8309C80726032E5300847DF3 /* ThumbnailManager.swift */; };
 		8359C6D426019C9F00BBD692 /* VideoControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359C6D326019C9F00BBD692 /* VideoControlView.swift */; };
 		8359C6D926019D5B00BBD692 /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359C6D826019D5B00BBD692 /* PlayerSliderView.swift */; };
 		8359C6DC26019E6800BBD692 /* SeekerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359C6DB26019E6800BBD692 /* SeekerButton.swift */; };
@@ -49,6 +51,7 @@
 		8359C7312601DA0400BBD692 /* VideoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8359C7302601DA0400BBD692 /* VideoView.xib */; };
 		8359C7342601DCED00BBD692 /* VideoControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8359C6D226019C9A00BBD692 /* VideoControlView.xib */; };
 		8359C7372601E18500BBD692 /* SliderThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359C7362601E18500BBD692 /* SliderThumbnailView.swift */; };
+		839361A92609DAEC00FF2986 /* PlayPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839361A82609DAEC00FF2986 /* PlayPauseButton.swift */; };
 		83D2B8F12600696300B59E06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D2B8F02600696300B59E06 /* AppDelegate.swift */; };
 		83D2B8F32600696300B59E06 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D2B8F22600696300B59E06 /* SceneDelegate.swift */; };
 		83D2B8F52600696300B59E06 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D2B8F42600696300B59E06 /* ViewController.swift */; };
@@ -56,9 +59,12 @@
 		83D2B8FA2600696800B59E06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83D2B8F92600696800B59E06 /* Assets.xcassets */; };
 		83D2B8FD2600696800B59E06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83D2B8FB2600696800B59E06 /* LaunchScreen.storyboard */; };
 		83D2B9062600697900B59E06 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D2B9052600697900B59E06 /* VideoView.swift */; };
+		83EE51CE26031283003D41BB /* VideoUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EE51CD26031282003D41BB /* VideoUtil.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8309C80126031DA200847DF3 /* AVAsset+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+.swift"; sourceTree = "<group>"; };
+		8309C80726032E5300847DF3 /* ThumbnailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailManager.swift; sourceTree = "<group>"; };
 		8359C6D226019C9A00BBD692 /* VideoControlView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoControlView.xib; sourceTree = "<group>"; };
 		8359C6D326019C9F00BBD692 /* VideoControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControlView.swift; sourceTree = "<group>"; };
 		8359C6D826019D5B00BBD692 /* PlayerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSliderView.swift; sourceTree = "<group>"; };
@@ -101,6 +107,7 @@
 		8359C7282601A03400BBD692 /* UIDevice+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+.swift"; sourceTree = "<group>"; };
 		8359C7302601DA0400BBD692 /* VideoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoView.xib; sourceTree = "<group>"; };
 		8359C7362601E18500BBD692 /* SliderThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderThumbnailView.swift; sourceTree = "<group>"; };
+		839361A82609DAEC00FF2986 /* PlayPauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPauseButton.swift; sourceTree = "<group>"; };
 		83D2B8ED2600696300B59E06 /* SampleVideoPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleVideoPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83D2B8F02600696300B59E06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		83D2B8F22600696300B59E06 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +117,7 @@
 		83D2B8FC2600696800B59E06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83D2B8FE2600696800B59E06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83D2B9052600697900B59E06 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
+		83EE51CD26031282003D41BB /* VideoUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoUtil.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +140,7 @@
 				8359C6D826019D5B00BBD692 /* PlayerSliderView.swift */,
 				8359C6DB26019E6800BBD692 /* SeekerButton.swift */,
 				8359C7362601E18500BBD692 /* SliderThumbnailView.swift */,
+				839361A82609DAEC00FF2986 /* PlayPauseButton.swift */,
 			);
 			path = ControlView;
 			sourceTree = "<group>";
@@ -196,6 +205,8 @@
 		83D2B8EF2600696300B59E06 /* SampleVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				8309C80126031DA200847DF3 /* AVAsset+.swift */,
+				83EE51CD26031282003D41BB /* VideoUtil.swift */,
 				8359C7282601A03400BBD692 /* UIDevice+.swift */,
 				8359C6DE26019EB800BBD692 /* SnapKit */,
 				8359C6D626019D1900BBD692 /* ControlView */,
@@ -208,6 +219,7 @@
 				83D2B8F92600696800B59E06 /* Assets.xcassets */,
 				83D2B8FB2600696800B59E06 /* LaunchScreen.storyboard */,
 				83D2B8FE2600696800B59E06 /* Info.plist */,
+				8309C80726032E5300847DF3 /* ThumbnailManager.swift */,
 			);
 			path = SampleVideoPlayer;
 			sourceTree = "<group>";
@@ -291,6 +303,7 @@
 				8359C70B26019ECD00BBD692 /* ConstraintAttributes.swift in Sources */,
 				8359C72226019ECD00BBD692 /* ConstraintLayoutSupportDSL.swift in Sources */,
 				8359C6D926019D5B00BBD692 /* PlayerSliderView.swift in Sources */,
+				83EE51CE26031283003D41BB /* VideoUtil.swift in Sources */,
 				8359C71E26019ECD00BBD692 /* ConstraintView+Extensions.swift in Sources */,
 				8359C71A26019ECD00BBD692 /* ConstraintInsetTarget.swift in Sources */,
 				8359C71C26019ECD00BBD692 /* ConstraintMakerFinalizable.swift in Sources */,
@@ -299,6 +312,7 @@
 				8359C71226019ECD00BBD692 /* ConstraintLayoutGuideDSL.swift in Sources */,
 				8359C6D426019C9F00BBD692 /* VideoControlView.swift in Sources */,
 				8359C71126019ECD00BBD692 /* ConstraintRelatableTarget.swift in Sources */,
+				839361A92609DAEC00FF2986 /* PlayPauseButton.swift in Sources */,
 				8359C70F26019ECD00BBD692 /* LayoutConstraint.swift in Sources */,
 				8359C72626019FB400BBD692 /* VerticalProgressView.swift in Sources */,
 				8359C71726019ECD00BBD692 /* ConstraintView.swift in Sources */,
@@ -316,6 +330,7 @@
 				83D2B8F12600696300B59E06 /* AppDelegate.swift in Sources */,
 				8359C70626019ECD00BBD692 /* Typealiases.swift in Sources */,
 				8359C70426019ECD00BBD692 /* LayoutConstraintItem.swift in Sources */,
+				8309C80226031DA200847DF3 /* AVAsset+.swift in Sources */,
 				8359C72026019ECD00BBD692 /* ConstraintMakerRelatable.swift in Sources */,
 				8359C70326019ECD00BBD692 /* ConstraintLayoutGuide+Extensions.swift in Sources */,
 				8359C71326019ECD00BBD692 /* ConstraintInsets.swift in Sources */,
@@ -325,6 +340,7 @@
 				8359C70726019ECD00BBD692 /* ConstraintPriorityTarget.swift in Sources */,
 				8359C71926019ECD00BBD692 /* ConstraintDescription.swift in Sources */,
 				83D2B8F32600696300B59E06 /* SceneDelegate.swift in Sources */,
+				8309C80B26033E1A00847DF3 /* ThumbnailManager.swift in Sources */,
 				8359C70826019ECD00BBD692 /* ConstraintViewDSL.swift in Sources */,
 				8359C70D26019ECD00BBD692 /* ConstraintOffsetTarget.swift in Sources */,
 				8359C70E26019ECD00BBD692 /* ConstraintItem.swift in Sources */,

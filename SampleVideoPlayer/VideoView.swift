@@ -22,6 +22,21 @@ class VideoView: UIView {
         }
     }
     
+    var duration: Double {
+        if let duration = self.avPlayer.currentItem?.duration {
+            return CMTimeGetSeconds(duration)
+        }
+        return 0
+    }
+    
+    var currentTime: Double {
+        if let currnetTime = self.avPlayer.currentItem?.currentTime() {
+            return CMTimeGetSeconds(currnetTime)
+        }
+        return 0
+    }
+    
+    
     private var avAsset: AVAsset!
     private var avLayer: AVPlayerLayer!
     private var avPlayer: AVPlayer!
@@ -72,6 +87,7 @@ class VideoView: UIView {
         createAudioMetadataList()
         createSubtitleMetadataList()
         addProgressObserver()
+        addLoadingObserver()
     }
     
     private func createAudioMetadataList() {
@@ -87,29 +103,54 @@ class VideoView: UIView {
     private func addProgressObserver() {
         avPlayer.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC)), queue: .main) { [weak self] (time) in
             guard let self = self else { return }
-            if let duration = self.avPlayer.currentItem?.duration {
-                let duration = CMTimeGetSeconds(duration), time = CMTimeGetSeconds(time)
-                self.controlView.updateProgressSlider(value: Float(time / duration)) 
-                
-            }
-            
-            
+            self.controlView.updateProgressSlider(value: Float(CMTimeGetSeconds(time) / self.duration))
+            self.controlView.updateTimeLabel(currentTime: CMTimeGetSeconds(time), duration: self.duration)
         }
+    }
+    
+    private func addLoadingObserver() {
+        avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
     }
     
     
     func play() {
         avPlayer.play()
-        
-//        avPlayer.seek(to: CMTime(value: 120 * 600, timescale: 600))
-        
     }
+    
+    func pause() {
+        avPlayer.pause()
+    }
+    
+    
+    func seek(to time: Double) {
+        let seekCMTime = CMTimeMakeWithSeconds(time, preferredTimescale: avAsset.duration.timescale);
+        avPlayer.seek(to: seekCMTime, toleranceBefore: .zero, toleranceAfter: .zero)
+    }
+    
     
     func setSubtitle(option: AVMediaSelectionOption) {
         if let group = avAsset.mediaSelectionGroup(forMediaCharacteristic: .legible) {
             let options = AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: option.locale!)
             if let option = options.first {
                 avPlayer.currentItem?.select(option, in: group)
+            }
+        }
+    }
+    
+    //MARK: - Observer
+    
+    override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "timeControlStatus", let change = change, let newValue = change[NSKeyValueChangeKey.newKey] as? Int, let oldValue = change[NSKeyValueChangeKey.oldKey] as? Int {
+            let oldStatus = AVPlayer.TimeControlStatus(rawValue: oldValue)
+            let newStatus = AVPlayer.TimeControlStatus(rawValue: newValue)
+            if newStatus != oldStatus {
+                DispatchQueue.main.async {[weak self] in
+                    if newStatus == .playing || newStatus == .paused {
+                        self?.controlView.isHiddenLoadingView = true
+                    } else if self?.controlView.isDisplayControl ?? false {
+                        self?.controlView.isHiddenLoadingView = false
+                    }
+                }
             }
         }
     }

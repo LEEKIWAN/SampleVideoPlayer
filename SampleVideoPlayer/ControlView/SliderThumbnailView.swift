@@ -14,13 +14,13 @@ class SliderThumbnailView: UIView {
         didSet {
             self.setShown(isShown)
         }
-    }
+    }    
     
     var thumbnailImageView = UIImageView()
     
     var currentTimeLabel = UILabel()
     
-    var maximumWidth: CGFloat = 180
+    var maximumWidth: CGFloat = 230
     
     //MARK: - Func
     override init(frame: CGRect) {
@@ -71,14 +71,14 @@ class SliderThumbnailView: UIView {
     private func setUI() {
         self.backgroundColor = .clear
         
-        thumbnailImageView.backgroundColor = .black        
+        thumbnailImageView.backgroundColor = .black
         thumbnailImageView.contentMode = .scaleAspectFill
         thumbnailImageView.layer.masksToBounds = true
         
+        thumbnailImageView.backgroundColor = .red
         
         currentTimeLabel.textColor = .white
         currentTimeLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        currentTimeLabel.text = "1:23:19"
     }
     
     private func setEvent() {
@@ -91,7 +91,7 @@ class SliderThumbnailView: UIView {
     
     private func show() {
         guard let controlView = self.superview?.superview as? VideoControlView else { return }
-        UIView.animate(withDuration: 0.1) { [unowned self] in
+        UIView.animate(withDuration: 0.15) { [unowned self] in
             controlView.thumbnailWidthConstraint.constant = maximumWidth
             controlView.thumbnailBottomConstraint.constant = 8
             
@@ -104,7 +104,7 @@ class SliderThumbnailView: UIView {
         guard let controlView = self.superview?.superview as? VideoControlView else { return }
         controlView.layoutIfNeeded()
         
-        UIView.animate(withDuration: 0.1) { [unowned self] in
+        UIView.animate(withDuration: 0.15) { [unowned self] in
             controlView.thumbnailWidthConstraint.constant = maximumWidth / 2
             controlView.thumbnailBottomConstraint.constant = 0
 
@@ -116,20 +116,16 @@ class SliderThumbnailView: UIView {
     
     
     func setThumbnail(image: UIImage? = nil, time: String) {
-        print(time)
         
-//        if image != nil {
-//            if ((parentViewController as? VideoViewController)?.controlView.isDisplayBookmark)! && UIScreen.main.bounds.height <= 320 {
-//                thumbnailImageView.isHidden = true
-//            }
-//            else {
-//                thumbnailImageView.image = image
-//                thumbnailImageView.isHidden = false
-//            }
-//        }
-//        else {
-//            thumbnailImageView.isHidden = true
-//        }
+        if image != nil {
+            print(image)
+            thumbnailImageView.image = image
+            thumbnailImageView.isHidden = false
+        }
+        else {
+            print("d")
+            thumbnailImageView.isHidden = true
+        }
         
         
         currentTimeLabel.text = time

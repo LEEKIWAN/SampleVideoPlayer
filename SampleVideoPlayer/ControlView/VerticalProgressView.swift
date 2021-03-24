@@ -288,7 +288,6 @@ class VerticalProgressView: UIView {
             switch mode {
             case .brightness:
                 UIScreen.main.brightness = CGFloat(value)
-                
             case .sound:
                 guard let volumeSlider = volumeSlider else { return }
                 let audioSession = AVAudioSession.sharedInstance()
@@ -303,18 +302,16 @@ class VerticalProgressView: UIView {
 
         }
         
-        delegate?.verticalSliderValueChanged(slider: self)
-        delegate?.verticalSliderTouchEnd(slider: self)
+        setShown(true)
     }
     
     
     @objc func sliderValueChanged(_ recognizer: UIPanGestureRecognizer) {
-//        guard let superView = self.superview?.superview as? VideoControlView, superView.isLocked == false else { return }
-        
         let velocity = recognizer.velocity(in: recognizer.view)
         switch recognizer.state {
         case .began:
             delegate?.verticalSliderTouchBegan(slider: self)
+            setShown(true)
         case .changed:
             delegate?.verticalSliderValueChanged(slider: self)
             if mode == .brightness {

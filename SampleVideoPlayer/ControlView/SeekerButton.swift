@@ -10,8 +10,8 @@ import UIKit
 
 
 protocol SeekerButtonDelegate : class {
-    func onForwadTouched(view: SeekerButton, isContinues: Bool, intervaltime: Double)
-    func onBackwardTouched(view: SeekerButton, isContinues: Bool, intervaltime: Double)
+    func onForwadTouched(view: SeekerButton)
+    func onBackwardTouched(view: SeekerButton)
 }
 
 class SeekerButton: UIView {
@@ -23,10 +23,8 @@ class SeekerButton: UIView {
     weak var delegate: SeekerButtonDelegate?
     
     
-    
     var animationRange: Int {
-//        let width = self.parentViewController?.view.frame.size.width ?? 0
-        let width = 100
+        let width = UIScreen.main.bounds.width
         
         if width <= 480 {
             return 0
@@ -61,16 +59,6 @@ class SeekerButton: UIView {
         }
     }
     
-    var isAnimating: Bool {
-        if #available(iOS 10.0, *) {
-            return doubleTapHideTimer.isValid
-        }
-        else {
-            return false
-        }
-    }
-    
-    
     var widthValue: CGFloat {
         if UIDevice.current.userInterfaceIdiom == .pad {
             return 55
@@ -87,14 +75,6 @@ class SeekerButton: UIView {
         else {
             return 13
         }
-    }
-    
-    var isContinues: Bool {
-        if currentInterval > interval {
-            return true
-        }
-        
-        return false
     }
     
     //MARK: - Func
@@ -199,11 +179,9 @@ class SeekerButton: UIView {
     
     private func updateCurrentIntervalText() {
         let mark = directionMode == .backward ? "-" : "+"
-//        secondAnimationLabel.text = "\(mark)\(currentInterval)"
-        secondAnimationLabel.text = "\(mark)\(interval)"
+        secondAnimationLabel.text = "\(mark)\(currentInterval)"
         secondAnimationLabel.sizeToFit()
-        
-        
+                
         if animationRange == 0 {
             secondIntervalLabel.text = "\(currentInterval)"
         }
@@ -213,128 +191,61 @@ class SeekerButton: UIView {
     
     
     private func createAnimator() {
-        if #available(iOS 10.0, *) {
-            animator = UIViewPropertyAnimator(duration: 1.2, curve: .linear) {
-                UIView.animateKeyframes(withDuration: 1.2, delay: 0, options: [], animations: {
-                    
-                    UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0) { [unowned self] in
-                        self.secondIntervalLabel.alpha = 1.0
-                        self.secondAnimationLabel.alpha = 0.0
-                        self.fadeAnimationView.alpha = 0.8
-                        self.labelConstraint?.update(offset: 0)
-                        self.seekButton.transform = CGAffineTransform(rotationAngle: 0)
-                    }
-                    
-                    UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.05) { [unowned self] in
-                        var t = CGAffineTransform.identity
-                        if self.directionMode == .forward {
-                            t = t.rotated(by: CGFloat.pi / 4)
-                        }
-                        else {
-                            t = t.rotated(by: CGFloat.pi / -4)
-                        }
-                        
-                        t = t.scaledBy(x: 0.8, y: 0.8)
-                        self.seekButton.transform = t
-                        self.layoutIfNeeded()
-                    }
-                    
-                    UIView.addKeyframe(withRelativeStartTime: 0.05, relativeDuration: 0.05) { [unowned self] in         // 0.1
-                        if animationRange > 0 {
-                            self.secondIntervalLabel.alpha = 0
-                            self.layoutIfNeeded()
-                        }
-                    }
-                    
-                    UIView.addKeyframe(withRelativeStartTime: 0.05, relativeDuration: 0.15) { [unowned self] in     // 0.2
-                        var t = CGAffineTransform.identity
-                        t = t.rotated(by: 0)
-                        t = t.scaledBy(x: 1, y: 1)
-                        self.seekButton.transform = t
-                        self.fadeAnimationView.alpha = 0
-                        self.layoutIfNeeded()
-                    }
-                    
-                    
-                    UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.2) { [unowned self] in
-                        if animationRange > 0 {
-                            _ = self.directionMode == .forward ? self.labelConstraint!.update(offset: self.animationRange) : self.labelConstraint!.update(offset: -self.animationRange)
-                            self.secondAnimationLabel.alpha = 1.0
-                            self.layoutIfNeeded()
-                        }
-                    }
-                    
-                    UIView.addKeyframe(withRelativeStartTime: 1.0, relativeDuration: 0.2) { [unowned self] in
-                        self.secondAnimationLabel.alpha = 0
-                        self.layoutIfNeeded()
-                    }
-                }) { [unowned self] (completion: Bool) in
-                    if completion {
-                        self.labelConstraint?.update(offset: 0)
-                        self.secondAnimationLabel.alpha = 0
-                        self.secondIntervalLabel.alpha = 1
-                        self.currentInterval = self.interval
-                        secondIntervalLabel.text = "\(currentInterval)"
-                    }
-                }
-            }
-        }
-    }
-    
-    private func animateIOS9() {
-        self.layer.removeAllAnimations()
-        
-        self.secondIntervalLabel.alpha = 1.0
-        self.secondAnimationLabel.alpha = 0.0
-        self.fadeAnimationView.alpha = 0.8
-        self.labelConstraint?.update(offset: 0)
-        self.seekButton.transform = CGAffineTransform(rotationAngle: 0)
-        
-        self.layoutIfNeeded()
-        
-        UIView.animate(withDuration: 0.05, delay: 0, options: .beginFromCurrentState) { [unowned self] in
-            var t = CGAffineTransform.identity
-            if self.directionMode == .forward {
-                t = t.rotated(by: CGFloat.pi / 4)
-            }
-            else {
-                t = t.rotated(by: CGFloat.pi / -4)
-            }
-            
-            t = t.scaledBy(x: 0.8, y: 0.8)
-            self.seekButton.transform = t
-            self.layoutIfNeeded()
-        } completion: { (completion) in
-            
-            UIView.animate(withDuration: 0.05) { [unowned self] in
-                if animationRange > 0 {
-                    self.secondIntervalLabel.alpha = 0
-                    self.layoutIfNeeded()
-                }
-            }
-            
-            UIView.animate(withDuration: 0.2, delay: 0.05, options: .beginFromCurrentState, animations: { [unowned self] in
-                if animationRange > 0 {
-                    _ = self.directionMode == .forward ? self.labelConstraint!.update(offset: self.animationRange) : self.labelConstraint!.update(offset: -self.animationRange)
-                    self.secondAnimationLabel.alpha = 1.0
-                    self.layoutIfNeeded()
-                }
-            }, completion: nil)
+        animator = UIViewPropertyAnimator(duration: 1.2, curve: .linear) {
+            UIView.animateKeyframes(withDuration: 1.2, delay: 0, options: [], animations: {
                 
-            UIView.animate(withDuration: 0.15) { [unowned self] in
-                var t = CGAffineTransform.identity
-                t = t.rotated(by: 0)
-                t = t.scaledBy(x: 1, y: 1)
-                self.seekButton.transform = t
-                self.fadeAnimationView.alpha = 0
-                self.layoutIfNeeded()
-            }
-            
-            UIView.animate(withDuration: 0.2, delay: 0.95, options: .overrideInheritedCurve) { [unowned self] in
-                self.secondAnimationLabel.alpha = 0
-                self.layoutIfNeeded()
-            } completion: { [unowned self] (completion) in
-                print(completion)
+                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0) { [unowned self] in
+                    self.secondIntervalLabel.alpha = 1.0
+                    self.secondAnimationLabel.alpha = 0.0
+                    self.fadeAnimationView.alpha = 0.8
+                    self.labelConstraint?.update(offset: 0)
+                    self.seekButton.transform = CGAffineTransform(rotationAngle: 0)
+                }
+                
+                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.05) { [unowned self] in
+                    var t = CGAffineTransform.identity
+                    if self.directionMode == .forward {
+                        t = t.rotated(by: CGFloat.pi / 4)
+                    }
+                    else {
+                        t = t.rotated(by: CGFloat.pi / -4)
+                    }
+                    
+                    t = t.scaledBy(x: 0.8, y: 0.8)
+                    self.seekButton.transform = t
+                    self.layoutIfNeeded()
+                }
+                
+                UIView.addKeyframe(withRelativeStartTime: 0.05, relativeDuration: 0.05) { [unowned self] in         // 0.1
+                    if animationRange > 0 {
+                        self.secondIntervalLabel.alpha = 0
+                        self.layoutIfNeeded()
+                    }
+                }
+                
+                UIView.addKeyframe(withRelativeStartTime: 0.05, relativeDuration: 0.15) { [unowned self] in     // 0.2
+                    var t = CGAffineTransform.identity
+                    t = t.rotated(by: 0)
+                    t = t.scaledBy(x: 1, y: 1)
+                    self.seekButton.transform = t
+                    self.fadeAnimationView.alpha = 0
+                    self.layoutIfNeeded()
+                }
+                
+                
+                UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.2) { [unowned self] in
+                    if animationRange > 0 {
+                        _ = self.directionMode == .forward ? self.labelConstraint!.update(offset: self.animationRange) : self.labelConstraint!.update(offset: -self.animationRange)
+                        self.secondAnimationLabel.alpha = 1.0
+                        self.layoutIfNeeded()
+                    }
+                }
+                
+                UIView.addKeyframe(withRelativeStartTime: 1.0, relativeDuration: 0.2) { [unowned self] in
+                    self.secondAnimationLabel.alpha = 0
+                    self.layoutIfNeeded()
+                }
+            }) { [unowned self] (completion: Bool) in
                 if completion {
                     self.labelConstraint?.update(offset: 0)
                     self.secondAnimationLabel.alpha = 0
@@ -343,9 +254,8 @@ class SeekerButton: UIView {
                     secondIntervalLabel.text = "\(currentInterval)"
                 }
             }
-
+            
         }
-        
     }
     
     func resetDoubleTapTimer() {
@@ -353,34 +263,24 @@ class SeekerButton: UIView {
         doubleTapHideTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(hideSeekerButton), userInfo: nil, repeats: false)
     }
     
-    func updateSeekRange() {
-        interval = 10
-        setUI()
-        
-    }
     
     // MARK: - Event
     @objc func onButtonTouched(_ sender: UIButton) {
         if directionMode == .backward {
-            delegate?.onBackwardTouched(view: self, isContinues: isContinues, intervaltime: Double(currentInterval))
+            delegate?.onBackwardTouched(view: self)
         }
         else {
-            delegate?.onForwadTouched(view: self, isContinues: isContinues, intervaltime: Double(currentInterval))
+            delegate?.onForwadTouched(view: self)
         }
         
         self.updateCurrentIntervalText()
         
-        if #available(iOS 10.0, *) {
-            if animator.isRunning {
-                animator.fractionComplete = 0.0
-            }
-            else {
-                createAnimator()
-                animator.startAnimation()
-            }
+        if animator.isRunning {
+            animator.fractionComplete = 0.0
         }
         else {
-            animateIOS9()
+            createAnimator()
+            animator.startAnimation()
         }
         
     }
@@ -394,11 +294,7 @@ class SeekerButton: UIView {
     
     
     deinit {
-        if #available(iOS 10.0, *) {
-            animator.stopAnimation(true)
-        } else {
-            // Fallback on earlier versions
-        }
+        animator.stopAnimation(true)
     }
 }
 
