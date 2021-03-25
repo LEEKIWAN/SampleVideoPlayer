@@ -74,20 +74,20 @@
                             <rect key="frame" x="0.0" y="238" width="736" height="176"/>
                         </imageView>
                         <view contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="746" translatesAutoresizingMaskIntoConstraints="NO" id="82K-JN-WAh" userLabel="Bottom View">
-                            <rect key="frame" x="0.0" y="296" width="736" height="118"/>
+                            <rect key="frame" x="0.0" y="301" width="736" height="113"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RPr-CI-Y8q">
-                                    <rect key="frame" x="13" y="63" width="710" height="45"/>
+                                    <rect key="frame" x="13" y="63" width="710" height="40"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rho-mf-ekd">
-                                            <rect key="frame" x="288" y="10" width="134" height="25"/>
-                                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="18"/>
+                                            <rect key="frame" x="295.33333333333331" y="9.9999999999999982" width="119.66666666666669" height="20.333333333333329"/>
+                                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="16"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                             <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             <state key="normal" title="자막 및 음성">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <imageReference key="image" image="text.bubble.rtl" catalog="system" symbolScale="large"/>
+                                                <imageReference key="image" image="text.bubble.rtl" catalog="system" symbolScale="medium"/>
                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default" weight="bold"/>
                                             </state>
                                             <state key="highlighted">
@@ -101,7 +101,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="rho-mf-ekd" firstAttribute="centerX" secondItem="RPr-CI-Y8q" secondAttribute="centerX" id="0EU-lP-SfB"/>
-                                        <constraint firstAttribute="height" constant="45" id="4e1-eQ-e5m"/>
+                                        <constraint firstAttribute="height" constant="40" id="4e1-eQ-e5m"/>
                                         <constraint firstItem="rho-mf-ekd" firstAttribute="centerY" secondItem="RPr-CI-Y8q" secondAttribute="centerY" id="htQ-iA-mpM"/>
                                     </constraints>
                                 </view>
@@ -264,7 +264,7 @@
                     </constraints>
                 </view>
                 <view alpha="0.0" contentMode="scaleToFill" placeholderIntrinsicWidth="80" placeholderIntrinsicHeight="45" translatesAutoresizingMaskIntoConstraints="NO" id="Ya2-mE-xMX" customClass="SliderThumbnailView" customModule="SampleVideoPlayer" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="256" width="80" height="45"/>
+                    <rect key="frame" x="0.0" y="261" width="80" height="45"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="wnf-9Q-OBk"/>

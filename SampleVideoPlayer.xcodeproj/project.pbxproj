@@ -198,7 +198,7 @@
 			path = SnapKit;
 			sourceTree = "<group>";
 		};
-		839361AB260AFD3100FF2986 /* Popup */ = {
+		839361AB260AFD3100FF2986 /* AudioSubtitleSelectViewController */ = {
 			isa = PBXGroup;
 			children = (
 				839361AC260AFD4E00FF2986 /* AudioSubtitleSelectViewController.storyboard */,
@@ -206,7 +206,7 @@
 				839361B5260B07D100FF2986 /* SelectTableViewCell.xib */,
 				839361B4260B07D100FF2986 /* SelectTableViewCell.swift */,
 			);
-			path = Popup;
+			path = AudioSubtitleSelectViewController;
 			sourceTree = "<group>";
 		};
 		839361BE260B1AAB00FF2986 /* Base */ = {
@@ -261,7 +261,7 @@
 				83D2B8F22600696300B59E06 /* SceneDelegate.swift */,
 				839361BE260B1AAB00FF2986 /* Base */,
 				8359C6D626019D1900BBD692 /* ControlView */,
-				839361AB260AFD3100FF2986 /* Popup */,
+				839361AB260AFD3100FF2986 /* AudioSubtitleSelectViewController */,
 				8359C7302601DA0400BBD692 /* VideoView.xib */,
 				83D2B9052600697900B59E06 /* VideoView.swift */,
 				83D2B8F62600696300B59E06 /* Main.storyboard */,

@@ -145,7 +145,6 @@ class VideoView: UIView {
     
     
     func play() {
-        self.layoutIfNeeded()
         avPlayer.play()
     }
     
@@ -162,6 +161,20 @@ class VideoView: UIView {
     
     func setSubtitle(option: AVMediaSelectionOption) {
         if let group = avAsset.mediaSelectionGroup(forMediaCharacteristic: .legible) {
+            if let locale = option.locale {
+                let options = AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: locale)
+                if let option = options.first {
+                    avPlayer.currentItem?.select(option, in: group)
+                }
+            }
+            else {
+                avPlayer.currentItem?.select(nil, in: group)
+            }
+        }
+    }
+    
+    func setAudio(option: AVMediaSelectionOption) {
+        if let group = avAsset.mediaSelectionGroup(forMediaCharacteristic: .audible) {
             let options = AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: option.locale!)
             if let option = options.first {
                 avPlayer.currentItem?.select(option, in: group)
@@ -243,13 +256,26 @@ extension VideoView: VideoControlViewDelegate {
             let viewController = storyBoard.instantiateInitialViewController() as! AudioSubtitleSelectViewController
             viewController.audioMetadataList = audioMetadataList
             viewController.subtitleMetadataList = subtitleMetadataList
-            
+            viewController.selectedAudioMetadata = selectedAudioMetadata
+            viewController.selectedSubtitleMetadata = selectedSubtitleMetadata
+            viewController.delegate = self
             parentViewController.present(viewController, animated: true) { [weak self] in
                 self?.pause()
             }
         }
     }
+}
+
+extension VideoView: AudioSubtitleSelectViewDelegate {
+    func onSubtitleChanged(viewController: AudioSubtitleSelectViewController, selectedSubtitleMetadata: AVMediaSelectionOption) {
+        self.selectedSubtitleMetadata = selectedSubtitleMetadata
+        setSubtitle(option: selectedSubtitleMetadata)
+    }
     
+    func onAudioChanged(viewController: AudioSubtitleSelectViewController, selectedAudioMetadata: AVMediaSelectionOption) {
+        self.selectedAudioMetadata = selectedAudioMetadata
+        setAudio(option: selectedAudioMetadata)
+    }
 }
 
 extension VideoView: AVPictureInPictureControllerDelegate {
