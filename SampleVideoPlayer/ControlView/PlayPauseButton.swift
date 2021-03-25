@@ -44,7 +44,7 @@ class PlayPauseButton: UIButton {
 
         leftLayer.fillColor = UIColor.white.cgColor
         rightLayer.fillColor = UIColor.white.cgColor
-        addTarget(self, action: #selector(pressed), for: .touchUpInside)
+//        addTarget(self, action: #selector(pressed), for: .touchUpInside)
     }
 
     @objc private func pressed() {
@@ -69,7 +69,7 @@ class PlayPauseButton: UIButton {
 
     private func pathAnimation(fromPath: CGPath?, toPath: CGPath) -> CAAnimation {
         let animation = CABasicAnimation(keyPath: "path")
-        animation.duration = 0.2
+        animation.duration = 0.1
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
         animation.fromValue = fromPath
         animation.toValue = toPath
@@ -84,7 +84,7 @@ class PlayPauseButton: UIButton {
         rightLayer.path = rightPath()
     }
 
-    private let pauseButtonLineSpacing: CGFloat = 3.5
+    private let pauseButtonLineSpacing: CGFloat = 3
 
     private var leftLayerFrame: CGRect {
         return CGRect(x: 0, y: 0, width: bounds.width * 0.5, height: bounds.height)

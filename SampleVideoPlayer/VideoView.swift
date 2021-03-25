@@ -18,7 +18,7 @@ class VideoView: UIView {
     
     @IBOutlet weak var controlView: VideoControlView! {
         didSet {
-            controlView.videoView = self
+            controlView.delegate = self
         }
     }
     
@@ -41,16 +41,18 @@ class VideoView: UIView {
     private var avLayer: AVPlayerLayer!
     private var avPlayer: AVPlayer!
     
-    //                         [title : metadatas]
     private var audioMetadataList: [AVMediaSelectionOption] = []
     private var subtitleMetadataList: [AVMediaSelectionOption] = []
     
+    private var selectedAudioMetadata: AVMediaSelectionOption?
+    private var selectedSubtitleMetadata: AVMediaSelectionOption?
     
     //MARK: - Func
     override init(frame: CGRect) {
         super.init(frame: frame)
         setNib()
         setEvent()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -87,17 +89,46 @@ class VideoView: UIView {
         createAudioMetadataList()
         createSubtitleMetadataList()
         addProgressObserver()
-        addLoadingObserver()
+        addPlayerObserver()
     }
     
     private func createAudioMetadataList() {
         guard let audibleGroup: AVMediaSelectionGroup = avAsset.mediaSelectionGroup(forMediaCharacteristic: .audible) else { return }
-        audioMetadataList = audibleGroup.options
+        audioMetadataList.append(contentsOf: audibleGroup.options) 
+        setDefaultAudio()
     }
     
     private func createSubtitleMetadataList() {
         guard let legibleGroup: AVMediaSelectionGroup = avAsset.mediaSelectionGroup(forMediaCharacteristic: .legible) else { return }
-        subtitleMetadataList = legibleGroup.options
+        subtitleMetadataList.append(AVMediaSelectionOption())
+        subtitleMetadataList.append(contentsOf: legibleGroup.options)
+        setDefaultSubtitle()
+    }
+    
+    func setDefaultAudio() {
+        if let playerItem = avPlayer?.currentItem, let group = avAsset.mediaSelectionGroup(forMediaCharacteristic: .audible) {
+            let selectedOption = playerItem.currentMediaSelection.selectedMediaOption(in: group)
+            if let selectedLocale = selectedOption?.locale {
+                let options = AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: selectedLocale)
+                if let option = options.first {
+                    selectedAudioMetadata = option
+                    avPlayer.currentItem?.select(option, in: group)
+                }
+            }
+        }
+    }
+    
+    func setDefaultSubtitle() {
+        if let playerItem = avPlayer?.currentItem, let group = avAsset.mediaSelectionGroup(forMediaCharacteristic: .legible) {
+            let selectedOption = playerItem.currentMediaSelection.selectedMediaOption(in: group)
+            if let selectedLocale = selectedOption?.locale {
+                let options = AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: selectedLocale)
+                if let option = options.first {
+                    selectedSubtitleMetadata = option
+                    avPlayer.currentItem?.select(option, in: group)
+                }
+            }
+        }
     }
     
     private func addProgressObserver() {
@@ -108,12 +139,13 @@ class VideoView: UIView {
         }
     }
     
-    private func addLoadingObserver() {
-        avPlayer.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+    private func addPlayerObserver() {
+        avPlayer.addObserver(self, forKeyPath: #keyPath(AVPlayer.timeControlStatus), options: [.old, .new], context: nil)
     }
     
     
     func play() {
+        self.layoutIfNeeded()
         avPlayer.play()
     }
     
@@ -140,24 +172,85 @@ class VideoView: UIView {
     //MARK: - Observer
     
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "timeControlStatus", let change = change, let newValue = change[NSKeyValueChangeKey.newKey] as? Int, let oldValue = change[NSKeyValueChangeKey.oldKey] as? Int {
+        if keyPath == #keyPath(AVPlayer.timeControlStatus), let change = change, let newValue = change[NSKeyValueChangeKey.newKey] as? Int, let oldValue = change[NSKeyValueChangeKey.oldKey] as? Int {
             let oldStatus = AVPlayer.TimeControlStatus(rawValue: oldValue)
             let newStatus = AVPlayer.TimeControlStatus(rawValue: newValue)
             if newStatus != oldStatus {
-                DispatchQueue.main.async {[weak self] in
-                    if newStatus == .playing || newStatus == .paused {
-                        self?.controlView.isHiddenLoadingView = true
-                    } else if self?.controlView.isDisplayControl ?? false {
-                        self?.controlView.isHiddenLoadingView = false
+                switch newStatus {
+                case .playing:
+                    controlView.isHiddenLoadingView = true
+                    controlView.playPauseButton.setPlaying(true)
+                case .paused: 
+                    controlView.isHiddenLoadingView = true
+                    controlView.playPauseButton.setPlaying(false)
+                case .waitingToPlayAtSpecifiedRate:
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                        guard let self = self else { return }
+                        if self.avPlayer.timeControlStatus == .waitingToPlayAtSpecifiedRate {
+                            self.controlView.isHiddenLoadingView = false
+                        }
                     }
+                    
+                default:
+                    break
                 }
+                
+            }
+        }
+        
+    }
+}
+
+extension VideoView: VideoControlViewDelegate {
+    func onPlayPauseTouched(view: VideoControlView, button: PlayPauseButton) {
+        button.playing ? pause() : play()
+    }
+    
+    //
+    func sliderTouchBegan(view: VideoControlView, slider: PlayerSliderView) {
+        pause()
+    }
+    
+    func sliderValueChanged(view: VideoControlView, slider: PlayerSliderView) {
+        let seekTime = duration * Double(slider.value)
+        let seekTimeDisplay = VideoUtil.durationToString(duration: seekTime)
+        
+        controlView.setSliderThumbnailView(image: #imageLiteral(resourceName: "folderRecentDownload"), time: seekTimeDisplay)
+    }
+    
+    func sliderTouchEnd(view: VideoControlView, slider: PlayerSliderView) {
+        let seekTime = duration * Double(slider.value)
+        seek(to: seekTime)        
+        play()
+    }
+    
+    //
+    func onBackwardTouched(view: VideoControlView) {
+        seek(to: currentTime - 10)
+        play()
+    }
+    
+    func onForwardTouched(view: VideoControlView) {
+        seek(to: currentTime + 10)
+        play()
+    }
+    
+    func onAudioSubtitleSelectTouched(view: VideoControlView) {
+        if let parentViewController = self.parentViewController {
+            
+            let storyBoard = UIStoryboard(name: "AudioSubtitleSelectViewController", bundle: nil)
+            let viewController = storyBoard.instantiateInitialViewController() as! AudioSubtitleSelectViewController
+            viewController.audioMetadataList = audioMetadataList
+            viewController.subtitleMetadataList = subtitleMetadataList
+            
+            parentViewController.present(viewController, animated: true) { [weak self] in
+                self?.pause()
             }
         }
     }
     
-    
 }
-
 
 extension VideoView: AVPictureInPictureControllerDelegate {
     
@@ -198,7 +291,7 @@ extension VideoView: AVPictureInPictureControllerDelegate {
     }
     
     func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        //        print("pictureInPictureControllerWillStopPictureInPicture")
+        print("pictureInPictureControllerWillStopPictureInPicture")
         //Handle PIP will stop event
     }
     

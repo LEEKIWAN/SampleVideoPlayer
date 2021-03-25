@@ -52,6 +52,12 @@
 		8359C7342601DCED00BBD692 /* VideoControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8359C6D226019C9A00BBD692 /* VideoControlView.xib */; };
 		8359C7372601E18500BBD692 /* SliderThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359C7362601E18500BBD692 /* SliderThumbnailView.swift */; };
 		839361A92609DAEC00FF2986 /* PlayPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839361A82609DAEC00FF2986 /* PlayPauseButton.swift */; };
+		839361AD260AFD4E00FF2986 /* AudioSubtitleSelectViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 839361AC260AFD4E00FF2986 /* AudioSubtitleSelectViewController.storyboard */; };
+		839361B0260AFD5500FF2986 /* AudioSubtitleSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839361AF260AFD5500FF2986 /* AudioSubtitleSelectViewController.swift */; };
+		839361B6260B07D100FF2986 /* SelectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839361B4260B07D100FF2986 /* SelectTableViewCell.swift */; };
+		839361B7260B07D100FF2986 /* SelectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 839361B5260B07D100FF2986 /* SelectTableViewCell.xib */; };
+		839361BB260B1A9500FF2986 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839361BA260B1A9500FF2986 /* UIView+.swift */; };
+		839361C4260B257D00FF2986 /* ACThumbnailGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839361C3260B257D00FF2986 /* ACThumbnailGenerator.swift */; };
 		83D2B8F12600696300B59E06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D2B8F02600696300B59E06 /* AppDelegate.swift */; };
 		83D2B8F32600696300B59E06 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D2B8F22600696300B59E06 /* SceneDelegate.swift */; };
 		83D2B8F52600696300B59E06 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D2B8F42600696300B59E06 /* ViewController.swift */; };
@@ -108,6 +114,12 @@
 		8359C7302601DA0400BBD692 /* VideoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoView.xib; sourceTree = "<group>"; };
 		8359C7362601E18500BBD692 /* SliderThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderThumbnailView.swift; sourceTree = "<group>"; };
 		839361A82609DAEC00FF2986 /* PlayPauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPauseButton.swift; sourceTree = "<group>"; };
+		839361AC260AFD4E00FF2986 /* AudioSubtitleSelectViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AudioSubtitleSelectViewController.storyboard; sourceTree = "<group>"; };
+		839361AF260AFD5500FF2986 /* AudioSubtitleSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSubtitleSelectViewController.swift; sourceTree = "<group>"; };
+		839361B4260B07D100FF2986 /* SelectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTableViewCell.swift; sourceTree = "<group>"; };
+		839361B5260B07D100FF2986 /* SelectTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectTableViewCell.xib; sourceTree = "<group>"; };
+		839361BA260B1A9500FF2986 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		839361C3260B257D00FF2986 /* ACThumbnailGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACThumbnailGenerator.swift; sourceTree = "<group>"; };
 		83D2B8ED2600696300B59E06 /* SampleVideoPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleVideoPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83D2B8F02600696300B59E06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		83D2B8F22600696300B59E06 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -186,6 +198,46 @@
 			path = SnapKit;
 			sourceTree = "<group>";
 		};
+		839361AB260AFD3100FF2986 /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				839361AC260AFD4E00FF2986 /* AudioSubtitleSelectViewController.storyboard */,
+				839361AF260AFD5500FF2986 /* AudioSubtitleSelectViewController.swift */,
+				839361B5260B07D100FF2986 /* SelectTableViewCell.xib */,
+				839361B4260B07D100FF2986 /* SelectTableViewCell.swift */,
+			);
+			path = Popup;
+			sourceTree = "<group>";
+		};
+		839361BE260B1AAB00FF2986 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				839361C0260B1AC000FF2986 /* Library */,
+				839361BF260B1AAF00FF2986 /* Extension */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		839361BF260B1AAF00FF2986 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				839361BA260B1A9500FF2986 /* UIView+.swift */,
+				8309C80126031DA200847DF3 /* AVAsset+.swift */,
+				83EE51CD26031282003D41BB /* VideoUtil.swift */,
+				8359C7282601A03400BBD692 /* UIDevice+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		839361C0260B1AC000FF2986 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				839361C3260B257D00FF2986 /* ACThumbnailGenerator.swift */,
+				8359C6DE26019EB800BBD692 /* SnapKit */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
 		83D2B8E42600696300B59E06 = {
 			isa = PBXGroup;
 			children = (
@@ -205,17 +257,15 @@
 		83D2B8EF2600696300B59E06 /* SampleVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				8309C80126031DA200847DF3 /* AVAsset+.swift */,
-				83EE51CD26031282003D41BB /* VideoUtil.swift */,
-				8359C7282601A03400BBD692 /* UIDevice+.swift */,
-				8359C6DE26019EB800BBD692 /* SnapKit */,
-				8359C6D626019D1900BBD692 /* ControlView */,
 				83D2B8F02600696300B59E06 /* AppDelegate.swift */,
 				83D2B8F22600696300B59E06 /* SceneDelegate.swift */,
-				83D2B8F42600696300B59E06 /* ViewController.swift */,
+				839361BE260B1AAB00FF2986 /* Base */,
+				8359C6D626019D1900BBD692 /* ControlView */,
+				839361AB260AFD3100FF2986 /* Popup */,
 				8359C7302601DA0400BBD692 /* VideoView.xib */,
 				83D2B9052600697900B59E06 /* VideoView.swift */,
 				83D2B8F62600696300B59E06 /* Main.storyboard */,
+				83D2B8F42600696300B59E06 /* ViewController.swift */,
 				83D2B8F92600696800B59E06 /* Assets.xcassets */,
 				83D2B8FB2600696800B59E06 /* LaunchScreen.storyboard */,
 				83D2B8FE2600696800B59E06 /* Info.plist */,
@@ -283,9 +333,11 @@
 			files = (
 				8359C7342601DCED00BBD692 /* VideoControlView.xib in Resources */,
 				8359C7312601DA0400BBD692 /* VideoView.xib in Resources */,
+				839361AD260AFD4E00FF2986 /* AudioSubtitleSelectViewController.storyboard in Resources */,
 				83D2B8FD2600696800B59E06 /* LaunchScreen.storyboard in Resources */,
 				83D2B8FA2600696800B59E06 /* Assets.xcassets in Resources */,
 				83D2B8F82600696300B59E06 /* Main.storyboard in Resources */,
+				839361B7260B07D100FF2986 /* SelectTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,18 +357,22 @@
 				8359C6D926019D5B00BBD692 /* PlayerSliderView.swift in Sources */,
 				83EE51CE26031283003D41BB /* VideoUtil.swift in Sources */,
 				8359C71E26019ECD00BBD692 /* ConstraintView+Extensions.swift in Sources */,
+				839361BB260B1A9500FF2986 /* UIView+.swift in Sources */,
 				8359C71A26019ECD00BBD692 /* ConstraintInsetTarget.swift in Sources */,
 				8359C71C26019ECD00BBD692 /* ConstraintMakerFinalizable.swift in Sources */,
 				8359C7372601E18500BBD692 /* SliderThumbnailView.swift in Sources */,
 				83D2B9062600697900B59E06 /* VideoView.swift in Sources */,
 				8359C71226019ECD00BBD692 /* ConstraintLayoutGuideDSL.swift in Sources */,
 				8359C6D426019C9F00BBD692 /* VideoControlView.swift in Sources */,
+				839361B6260B07D100FF2986 /* SelectTableViewCell.swift in Sources */,
 				8359C71126019ECD00BBD692 /* ConstraintRelatableTarget.swift in Sources */,
 				839361A92609DAEC00FF2986 /* PlayPauseButton.swift in Sources */,
 				8359C70F26019ECD00BBD692 /* LayoutConstraint.swift in Sources */,
 				8359C72626019FB400BBD692 /* VerticalProgressView.swift in Sources */,
+				839361B0260AFD5500FF2986 /* AudioSubtitleSelectViewController.swift in Sources */,
 				8359C71726019ECD00BBD692 /* ConstraintView.swift in Sources */,
 				8359C70526019ECD00BBD692 /* ConstraintMakerPriortizable.swift in Sources */,
+				839361C4260B257D00FF2986 /* ACThumbnailGenerator.swift in Sources */,
 				8359C71F26019ECD00BBD692 /* ConstraintMakerExtendable.swift in Sources */,
 				8359C70226019ECD00BBD692 /* ConstraintConfig.swift in Sources */,
 				8359C70A26019ECD00BBD692 /* ConstraintDSL.swift in Sources */,

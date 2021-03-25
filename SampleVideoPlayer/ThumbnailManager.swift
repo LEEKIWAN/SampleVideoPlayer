@@ -101,7 +101,7 @@ class ThumbnailManager {
                     return completion(UIImage(cgImage: cgImage))
                 }
             } catch {
-                print(error.localizedDescription)
+//                print(error.localizedDescription)
                 DispatchQueue.main.async {
                     return completion(nil)
                 }

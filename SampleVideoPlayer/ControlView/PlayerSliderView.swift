@@ -70,7 +70,8 @@ class PlayerSliderView: UISlider {
     
     private func configureSlider() {
         self.insertSubview(progressView, at: 0)
-        progressView.progressTintColor = .white
+        progressView.progressTintColor = .red
+        self.thumbTintColor = .red
         progressView.backgroundColor = .clear
 
         progressView.snp.makeConstraints { (make) in

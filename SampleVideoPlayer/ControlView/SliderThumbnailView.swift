@@ -20,7 +20,7 @@ class SliderThumbnailView: UIView {
     
     var currentTimeLabel = UILabel()
     
-    var maximumWidth: CGFloat = 230
+    var maximumWidth: CGFloat = 180
     
     //MARK: - Func
     override init(frame: CGRect) {
@@ -118,12 +118,10 @@ class SliderThumbnailView: UIView {
     func setThumbnail(image: UIImage? = nil, time: String) {
         
         if image != nil {
-            print(image)
             thumbnailImageView.image = image
             thumbnailImageView.isHidden = false
         }
         else {
-            print("d")
             thumbnailImageView.isHidden = true
         }
         

@@ -11,16 +11,6 @@ import UIKit
 
 extension UIDevice {
     
-    static var hasNotch: Bool {
-        if #available(iOS 11.0, *) {
-            let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
-            return bottom > 0
-        } else {
-            return false
-        }
-        
-    }
-    
     
     @available(iOS 10.0, *)
     static func vibrate(style: UIImpactFeedbackGenerator.FeedbackStyle = .medium) {

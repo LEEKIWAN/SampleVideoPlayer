@@ -9,12 +9,28 @@
 import UIKit
 import AVKit
 
+protocol VideoControlViewDelegate : class {
+    func onPlayPauseTouched(view: VideoControlView, button: PlayPauseButton)
+    
+    func sliderTouchBegan(view: VideoControlView, slider: PlayerSliderView)
+    func sliderValueChanged(view: VideoControlView, slider: PlayerSliderView)
+    func sliderTouchEnd(view: VideoControlView, slider: PlayerSliderView)
+    
+    func onBackwardTouched(view: VideoControlView)
+    func onForwardTouched(view: VideoControlView)
+    
+    func onAudioSubtitleSelectTouched(view: VideoControlView)
+}
+
+
 
 class VideoControlView: UIView {
-    var videoView: VideoView!
+    weak var delegate: VideoControlViewDelegate?
+    
     var avAsset: AVAsset! {
         didSet {
-            thumbnailManager = ThumbnailManager(avAsset: avAsset)
+            titleLabel.text = (avAsset as! AVURLAsset).url.lastPathComponent
+            
         }
     }
     
@@ -27,6 +43,8 @@ class VideoControlView: UIView {
         }
     }
     
+    
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var controlView: UIView!
     
     @IBOutlet weak var sliderView: PlayerSliderView! {
@@ -73,11 +91,6 @@ class VideoControlView: UIView {
     
     @IBOutlet weak var playControlStackView: UIStackView!
     
-    
-    
-    private var thumbnailManager: ThumbnailManager!
-    
-    
     var controlViewTimer: Timer = Timer()
     var isDisplayControl: Bool = true
     
@@ -115,6 +128,10 @@ class VideoControlView: UIView {
         displayControlView(isShown: isDisplayControl)
     }
     
+    @IBAction func onPlayPauseTouched(_ sender: PlayPauseButton) {
+        delegate?.onPlayPauseTouched(view: self, button: sender)
+    }
+    
     func updateProgressSlider(value: Float) {
         sliderView.setProgress(value, animated: false)
         thumbnailCenterConstraint.constant = sliderView.thumbCenterX
@@ -132,7 +149,11 @@ class VideoControlView: UIView {
         durationLabel.text = durationDisplay
     }
     
-
+    @IBAction func onAudioSubtitleSelectTouched(_ sender: UIButton) {
+        delegate?.onAudioSubtitleSelectTouched(view: self)
+    }
+    
+    //MARK: - ControlView
     func resetControlHideTimer(forceReset: Bool = false, second: TimeInterval = 3) {
         controlViewTimer.invalidate()
         controlViewTimer = Timer.scheduledTimer(timeInterval: second, target: self, selector: #selector(hideControlView), userInfo: nil, repeats: false)
@@ -171,6 +192,10 @@ class VideoControlView: UIView {
     }
     
     
+    func setSliderThumbnailView(image: UIImage, time: String) {
+        sliderThumbnailView.setThumbnail(image: #imageLiteral(resourceName: "folderRecentDownload"), time: time)
+    }
+    
 }
 
 
@@ -179,37 +204,29 @@ extension VideoControlView: PlayerSliderViewDelegate {
         thumbnailCenterConstraint.constant = thumbXPoint
         sliderThumbnailView.isShown = true
         
-        videoView.pause()
+        delegate?.sliderTouchBegan(view: self, slider: slider)
         
     }
     
     func sliderValueChanged(slider: PlayerSliderView, thumbXPoint: CGFloat) {
         thumbnailCenterConstraint.constant = thumbXPoint
-        let seekTime = videoView.duration * Double(slider.value)
-        let seekTimeDisplay = VideoUtil.durationToString(duration: seekTime)
-        
-        thumbnailManager.getThumnailImage(second: seekTime) { [weak self] (image) in
-            self?.sliderThumbnailView.setThumbnail(image: #imageLiteral(resourceName: "folderRecentDownload"), time: seekTimeDisplay)
-        }
+        delegate?.sliderValueChanged(view: self, slider: slider)
         
     }
     
     func sliderTouchEnd(slider: PlayerSliderView) {
         sliderThumbnailView.isShown = false
-        let seekTime = videoView.duration * Double(slider.value)
-        videoView.seek(to: seekTime)
-        
-        videoView.play()
+        delegate?.sliderTouchEnd(view: self, slider: slider)
     }
 }
 
 extension VideoControlView: SeekerButtonDelegate {
     func onBackwardTouched(view: SeekerButton) {
-        videoView.seek(to: videoView.currentTime - 10)
+        delegate?.onBackwardTouched(view: self)
     }
     
     func onForwadTouched(view: SeekerButton) {
-        videoView.seek(to: videoView.currentTime + 10)
+        delegate?.onForwardTouched(view: self)
     }
 }
 
